@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import './App.css';
+import classes from './App.module.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -14,7 +14,7 @@ class App extends Component {
 
   nameChangedHandler = (event, id) => {
     const persons = [...this.state.persons];
-    const personIndex = persons.findIndex(p => p.id === id);
+    const personIndex = persons.findIndex((p) => p.id === id);
     const person = persons[personIndex];
 
     person.name = event.target.value;
@@ -40,16 +40,8 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
     let persons = null;
-
+    let btnClass = [classes.button];
     if (this.state.showPerson) {
       persons = (
         <div>
@@ -64,13 +56,22 @@ class App extends Component {
           ))}
         </div>
       );
+      btnClass.push(classes.red);
+    }
+
+    const assignedClasses = [];
+    if (this.state.persons.length <= 2) {
+      assignedClasses.push(classes.red);
+    }
+    if (this.state.persons.length <= 1) {
+      assignedClasses.push(classes.bold);
     }
 
     return (
-      <div className='App'>
+      <div className={classes.App}>
         <h1> Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        <button style={style} onClick={this.togglePersonsHandler}>
+        <p className={assignedClasses.join(' ')}>This is really working!</p>
+        <button className={btnClass.join(' ')} onClick={this.togglePersonsHandler}>
           Toggle Persons
         </button>
         {persons}
